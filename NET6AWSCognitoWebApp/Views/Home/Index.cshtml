@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Account Settings</h1>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <p>Click the <a asp-area="" asp-controller="Account" asp-action="Index">Account</a> or <a asp-area="" asp-controller="Account" asp-action="Index">Login</a> links to initiate authentication with Amazon Cognito.</p>
+    </div>
+    <div class="col-12">
+        <span>Click the <a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a> link to initiate authentication with Amazon Cognito, but with elevated user policy required.</span>
+        <p class="small">The user must be added to the "admins" Cognito group to access the page.</p>
+    </div>
+</div>

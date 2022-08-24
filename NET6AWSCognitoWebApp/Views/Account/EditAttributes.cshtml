@@ -1,0 +1,63 @@
+﻿@model EditAttributesViewModel
+@{
+    ViewData["Title"] = "Edit Attributes";
+}
+
+<div class="row">
+    <div class="col-12">
+        <form method="post" action="" class="form-horizontal">
+            <fieldset id="content_form_name">
+                <legend>Change Password</legend>
+            </fieldset>
+            <div class="form-group">
+                <label class="control-label col-sm-4" asp-for="FirstName">First Name</label>
+                <div class="controls col-sm-8">
+                    <input type="text" asp-for="FirstName" placeholder="Your given name" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" asp-for="LastName">Last Name</label>
+                <div class="controls col-sm-8">
+                    <input type="text" asp-for="LastName" placeholder="Your family name" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" asp-for="Email">Email Address</label>
+                <div class="controls col-sm-8">
+                    <input type="text" asp-for="Email" placeholder="Your email address" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" asp-for="PhoneNumber">Phone Number</label>
+                <div class="controls col-sm-8">
+                    <input type="text" asp-for="PhoneNumber" placeholder="Your phone number" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" asp-for="ExternalName">ExternalName (custom attribute)</label>
+                <div class="controls col-sm-8">
+                    <input type="text" asp-for="ExternalName" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" asp-for="ExternalValue">ExternalValue (custom attribute)</label>
+                <div class="controls col-sm-8">
+                    <input type="text" asp-for="ExternalValue" class="form-control">
+                </div>
+            </div>
+
+            <div asp-validation-summary="All"></div>
+
+            <input type="submit"/>
+        </form>
+    </div>
+</div>
+
+@if(Model != null && Model.SuccessfulUpdate != null)
+{
+<div class="row">
+    <div class="col-12">
+        <p class="text-success display-4">User Attributes Updated Successfully!</p>
+    </div>
+</div>
+}

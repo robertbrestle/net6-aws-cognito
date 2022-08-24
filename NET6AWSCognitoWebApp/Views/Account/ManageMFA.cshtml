@@ -1,0 +1,50 @@
+﻿@model UserModel
+@{
+    ViewData["Title"] = "Manage MFA";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Manage MFA</h1>
+</div>
+
+<div class="row">
+    <div class="col-12 col-sm-3">
+        <div class="h3">Actions</div>
+        <ul>
+            <li>
+                <a asp-area="" asp-controller="Account" asp-action="ManageSMSMFA">Manage SMS MFA</a>
+            </li>
+            <li>
+                <a asp-area="" asp-controller="Account" asp-action="ManageSoftwareMFA">Manage Software MFA</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-12 col-sm-9">
+
+        <div class="h3">User MFA Settings</div>
+        <dl>
+            @if (Model != null && Model.CognitoUserData != null && Model.CognitoUserData.UserMFASettingList.Count() > 0)
+            {
+                @foreach (string mfaSetting in Model.CognitoUserData.UserMFASettingList)
+                {
+                    <dd>@mfaSetting</dd>
+                }
+            }else
+            {
+                <dd>None</dd>
+            }
+        </dl>
+        <hr />
+
+        <div class="h3">User Preferred MFA Setting</div>
+        <dl>
+            @if (Model != null && Model.CognitoUserData != null && !String.IsNullOrEmpty(Model.CognitoUserData.PreferredMfaSetting))
+            {
+                <dd>@Model.CognitoUserData.PreferredMfaSetting</dd>
+            }else
+            {
+                <dd>None</dd>
+            }
+        </dl>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+﻿@model ManageSoftwareMFAViewModel
+@{
+    ViewData["Title"] = "Manage Software MFA";
+}
+
+@if(Model != null)
+{
+    @* If user has no phone number, prompt to update user's phone_number attribute *@
+    <div class="row">
+        <div class="col-12">
+            <form method="post" asp-action="ManageSoftwareMFA" asp-controller="Account" class="form-horizontal">
+                <fieldset id="content_form_name">
+                    <legend>Add/Regenerate Software MFA</legend>
+                </fieldset>
+                @if(ViewData["QRCode_Image"] != null)
+                {
+                <div class="form-group">
+                    <img src="@ViewData["QRCode_Image"]" width="200" height="200"/>
+                </div>   
+                }
+                <div class="form-group">
+                    <label class="control-label col-sm-4" asp-for="SecretToken">Enter this key in your Authenticator App</label>
+                    <div class="controls col-sm-8">
+                        <input type="text" asp-for="SecretToken" placeholder="" class="form-control" disabled="disabled">
+                        <p class="small">This key will only be shown once.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" asp-for="DeviceName">Friendly Device Name</label>
+                    <div class="controls col-sm-8">
+                        <input type="text" asp-for="DeviceName" placeholder="Rob's Nexus 5X" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" asp-for="VerificationCode">Verification Code</label>
+                    <div class="controls col-sm-8">
+                        <input type="text" asp-for="VerificationCode" placeholder="123456" class="form-control">
+                    </div>
+                </div>
+
+                <div asp-validation-summary="All"></div>
+
+                <input type="submit"/>
+            </form>
+        </div>
+    </div>
+
+    @if(Model.SuccessfulUpdate != null)
+    {
+        <div class="row">
+            <div class="col-12">
+                <p class="text-success display-4">Software MFA Updated Successfully!</p>
+            </div>
+        </div>
+    }
+}
+
+<div class="row">
+    <div class="col-12">
+        <p class="my-2"><a asp-area="" asp-controller="Account" asp-action="DisableSoftwareMFA">Disable Software MFA</a></p>
+        <p class="my-2"><a asp-area="" asp-controller="Account" asp-action="ManageMFA">Go back to Manage MFA</a></p>
+    </div>
+</div>

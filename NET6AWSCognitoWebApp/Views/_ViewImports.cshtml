@@ -1,0 +1,11 @@
+﻿@using NET6AWSCognitoWebApp
+@using NET6AWSCognitoWebApp.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Microsoft.FeatureManagement.AspNetCore
+
+@* https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-3.1 *@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResources> SharedLocalizer
+
+@*@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet*@

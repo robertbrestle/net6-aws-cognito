@@ -1,0 +1,112 @@
+﻿@model ManageSMSMFAViewModel
+@{
+    ViewData["Title"] = "Manage SMS MFA";
+    string phoneNumber = null;
+    string phoneNumberVerified = null;
+    if(Model != null && Model.CognitoUserData != null)
+    {
+        phoneNumber = Model.CognitoUserData.UserAttributes.Where(x => x.Name == "phone_number").Select(x => x.Value).FirstOrDefault();
+        phoneNumberVerified = Model.CognitoUserData.UserAttributes.Where(x => x.Name == "phone_number_verified").Select(x => x.Value).FirstOrDefault();
+    }
+}
+
+@if(string.IsNullOrEmpty(phoneNumber))
+{
+    @* If user has no phone number, prompt to update user's phone_number attribute *@
+    <div class="row">
+        <div class="col-12">
+            <form method="post" asp-action="AddPhoneNumber" asp-controller="Account" class="form-horizontal">
+                <fieldset id="content_form_name">
+                    <legend>Add SMS Phone Number</legend>
+                </fieldset>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" asp-for="PhoneNumber">Phone Number</label>
+                    <div class="controls col-sm-8">
+                        <input type="text" asp-for="PhoneNumber" placeholder="+12223334444" class="form-control">
+                    </div>
+                </div>
+
+                <div asp-validation-summary="All"></div>
+
+                <input type="submit"/>
+            </form>
+        </div>
+    </div>
+}else
+{
+    @* User has phone number, but not verified *@
+    if(string.IsNullOrEmpty(phoneNumberVerified) || phoneNumberVerified == "false")
+    {
+        if(string.IsNullOrEmpty(Model.VerificationSent))
+        {
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="PhoneNumber">Unverified Phone Number</label>
+                            <div class="controls col-sm-8">
+                                <input type="text" id="PhoneNumber" class="form-control" disabled="disabled" value="@phoneNumber">
+                            </div>
+                            <p class="my-2"><a asp-area="" asp-controller="Account" asp-action="SendPhoneNumberVerification">Click here to Verify Phone Number</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }else
+        {
+            @* verification code sent, prompt user to input code *@
+            <div class="row">
+                <div class="col-12">
+                    <form method="post" asp-action="VerifyPhoneNumber" asp-controller="Account" class="form-horizontal">
+                        <fieldset id="content_form_name">
+                            <legend>Verify SMS Phone Number</legend>
+                        </fieldset>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" asp-for="VerificationCode">Verify Phone Number</label>
+                            <div class="controls col-sm-8">
+                                <input type="text" asp-for="VerificationCode" placeholder="123456" class="form-control">
+                            </div>
+                        </div>
+
+                        <div asp-validation-summary="All"></div>
+
+                        <input type="submit" value="Verify and Enable SMS MFA"/>
+                    </form>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        @* User has a phone number and is verified *@
+        <div class="row">
+            <div class="col-12">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="PhoneNumber">Verified Phone Number</label>
+                        <div class="controls col-sm-8">
+                            <input type="text" id="PhoneNumber" class="form-control" disabled="disabled" value="@phoneNumber">
+                        </div>
+                        <p class="my-2"><a asp-area="" asp-controller="Account" asp-action="EnableSMSMFA">Click here to enable SMS MFA</a></p>
+                        <p class="my-2"><a asp-area="" asp-controller="Account" asp-action="DisableSMSMFA">Click here to disable SMS MFA</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+@if(Model != null && Model.SuccessfulUpdate != null)
+{
+<div class="row">
+    <div class="col-12">
+        <p class="text-success display-4">SMS MFA Updated Successfully!</p>
+    </div>
+</div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <p class="my-2"><a asp-area="" asp-controller="Account" asp-action="ManageMFA">Go back to Manage MFA</a></p>
+    </div>
+</div>

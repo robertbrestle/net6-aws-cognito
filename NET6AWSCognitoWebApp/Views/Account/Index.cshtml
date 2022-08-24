@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNetCore.Authentication
+@model UserModel
+@{
+    ViewData["Title"] = "Account";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Account Settings</h1>
+</div>
+
+
+<div class="row">
+    <div class="col-12 col-sm-3">
+        <div class="h3">Actions</div>
+        <ul>
+            <li>
+                <a asp-area="" asp-controller="Account" asp-action="EditAttributes">Edit Account Fields</a>
+            </li>
+            <li>
+                <a asp-area="" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
+            </li>
+            <li>
+                <a asp-area="" asp-controller="Account" asp-action="ManageMFA">Manage MFA</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-12 col-sm-9">
+        <div class="h3">User Attributes</div>
+        <dl>
+            @foreach (var userAttribute in Model.CognitoUserData.UserAttributes)
+            {
+                <dt>@userAttribute.Name</dt>
+                <dd>@userAttribute.Value</dd>
+            }
+        </dl>
+        <hr />
+
+        <div class="h3">Claims</div>
+        <dl>
+            @foreach (var claim in User.Claims)
+            {
+                <dt>@claim.Type</dt>
+                <dd>@claim.Value</dd>
+            }
+        </dl>
+        <hr />
+
+        <div class="h3">Properties</div>
+        <dl>
+            @foreach (var prop in (await Context.AuthenticateAsync()).Properties.Items)
+            {
+                <dt>@prop.Key</dt>
+                <dd>@prop.Value</dd>
+            }
+        </dl>
+    </div>
+</div>
